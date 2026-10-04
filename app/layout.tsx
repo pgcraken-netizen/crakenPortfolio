@@ -1,19 +1,21 @@
 import type { Metadata, Viewport } from "next";
 import "./globals.css";
 
-const siteUrl = process.env.VERCEL_PROJECT_PRODUCTION_URL
-  ? `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`
-  : "http://localhost:3000";
+/** 公開URL（正規URL・OGP画像の基準） */
+const SITE_URL = "https://craken-portfolio.vercel.app";
 
 export const metadata: Metadata = {
-  metadataBase: new URL(siteUrl),
+  metadataBase: new URL(SITE_URL),
+  alternates: { canonical: "/" },
   title: "地域デジタル相談室 作品マップ",
   description:
     "相談室から始まった、街のデジタル化の記録。地域デジタル相談室がこれまで制作したホームページ・便利アプリ・ミニゲームを、街のイラストで振り返れます。",
   openGraph: {
     title: "地域デジタル相談室 作品マップ",
     description: "相談室から始まった、街のデジタル化の記録",
-    images: ["/og.jpg"],
+    url: "/",
+    siteName: "地域デジタル相談室 作品マップ",
+    images: [{ url: "/og.jpg", width: 1200, height: 630, alt: "地域デジタル相談室 作品マップ" }],
     locale: "ja_JP",
     type: "website",
   },
