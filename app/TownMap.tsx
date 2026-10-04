@@ -1,6 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useRef, useState } from "react";
+import ExternalLink from "./ExternalLink";
 import {
   CATEGORY_LABEL,
   HQ,
@@ -38,12 +39,12 @@ function MapCrop({ rect, label }: { rect: Place["rect"]; label: string }) {
 
 function VisitButton({ work, label = "訪れる" }: { work: Work; label?: string }) {
   return (
-    <a className="btn btn-primary" href={work.url} target="_blank" rel="noopener noreferrer">
+    <ExternalLink className="btn btn-primary" href={work.url} aria-label={`${work.name}を${label}（新しいタブで開きます）`}>
       {label}
       <span aria-hidden className="btn-arrow">
         ↗
       </span>
-    </a>
+    </ExternalLink>
   );
 }
 
@@ -66,6 +67,7 @@ function PanelBody({ place, onClose }: { place: Place; onClose: () => void }) {
               閉じる
             </button>
           </div>
+          <p className="newtab-note">作品は新しいタブで開きます。見終わったらそのタブを閉じれば、この街に戻れます。</p>
         </div>
       </>
     );
@@ -96,6 +98,7 @@ function PanelBody({ place, onClose }: { place: Place; onClose: () => void }) {
               街に戻る
             </button>
           </div>
+          <p className="newtab-note">作品は新しいタブで開きます。見終わったらそのタブを閉じれば、この街に戻れます。</p>
         </div>
       </>
     );

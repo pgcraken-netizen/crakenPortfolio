@@ -1,4 +1,5 @@
 import TownMap from "./TownMap";
+import ExternalLink from "./ExternalLink";
 import { CATEGORY_LABEL, HQ, WORKS, type Category } from "@/data/works";
 
 const ORDER: Category[] = ["homepage", "game", "app"];
@@ -12,7 +13,7 @@ export default function Page() {
       <section id="list" className="list" aria-labelledby="list-title">
         <div className="list-inner">
           <h2 id="list-title">作品一覧</h2>
-          <p className="list-lead">マップと同じ作品を、リストでも見られます。</p>
+          <p className="list-lead">マップと同じ作品を、リストでも見られます。作品はすべて新しいタブで開きます。</p>
           {ORDER.map((cat) => {
             const items = WORKS.filter((w) => w.category === cat);
             return (
@@ -23,10 +24,10 @@ export default function Page() {
                 <ul>
                   {items.map((w) => (
                     <li key={w.id}>
-                      <a href={w.url} target="_blank" rel="noopener noreferrer">
+                      <ExternalLink href={w.url}>
                         <strong>{w.name}</strong>
                         <span>{w.summary}</span>
-                      </a>
+                      </ExternalLink>
                     </li>
                   ))}
                 </ul>
