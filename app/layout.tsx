@@ -7,9 +7,9 @@ const SITE_URL = "https://craken-portfolio.vercel.app";
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   alternates: { canonical: "/" },
-  title: "地域デジタル相談室 作品マップ",
+  title: "地域デジタル相談室｜宇都宮のデジタルなんでも相談",
   description:
-    "相談室から始まった、街のデジタル化の記録。地域デジタル相談室がこれまで制作したホームページ・便利アプリ・ミニゲームを、街のイラストで振り返れます。",
+    "デジタルの「わからない」を、地域で支え合う。宇都宮の地域デジタル相談室です。ホームページ、便利なアプリ、ゲーム、AI講座まで、これまでの実績を街の地図で紹介しています。ご相談は無料です。",
   openGraph: {
     title: "地域デジタル相談室 作品マップ",
     description: "相談室から始まった、街のデジタル化の記録",
@@ -35,9 +35,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         {/* eslint-disable-next-line @next/next/no-page-custom-font */}
         <link
           rel="stylesheet"
-          href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@500;700&display=swap"
+          href="https://fonts.googleapis.com/css2?family=BIZ+UDPGothic:wght@400;700&family=Zen+Maru+Gothic:wght@700&display=swap"
         />
         <link rel="preload" as="image" href="/town-map.webp" type="image/webp" />
+        <link rel="icon" href="/logo-mark.png" />
       </head>
       <body>{children}</body>
     </html>

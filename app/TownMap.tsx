@@ -1,170 +1,103 @@
 "use client";
 
 import { useCallback, useEffect, useRef, useState } from "react";
-import ExternalLink from "./ExternalLink";
+import MapCrop from "./MapCrop";
+import WorkCard from "./WorkCard";
 import {
-  CATEGORY_LABEL,
+  CATEGORIES,
   HQ,
+  LEGEND_RECT,
   MAP_H,
   MAP_W,
   PLACES,
-  WORKS,
   workById,
+  worksIn,
   type Place,
-  type Work,
 } from "@/data/works";
 
 const pct = (v: number, of: number) => `${(v / of) * 100}%`;
-
-/** マップの一部を切り出して見せる（作品カードのヘッダー画像用） */
-function MapCrop({ rect, label }: { rect: Place["rect"]; label: string }) {
-  const [x1, y1, x2, y2] = rect;
-  const w = x2 - x1;
-  const h = y2 - y1;
-  return (
-    <div
-      className="crop"
-      role="img"
-      aria-label={`${label}のイラスト`}
-      style={{
-        aspectRatio: `${w} / ${h}`,
-        backgroundSize: `${(MAP_W / w) * 100}% ${(MAP_H / h) * 100}%`,
-        backgroundPosition: `${MAP_W === w ? 0 : (x1 / (MAP_W - w)) * 100}% ${
-          MAP_H === h ? 0 : (y1 / (MAP_H - h)) * 100
-        }%`,
-      }}
-    />
-  );
-}
-
-function VisitButton({ work, label = "訪れる" }: { work: Work; label?: string }) {
-  return (
-    <ExternalLink className="btn btn-primary" href={work.url} aria-label={`${work.name}を${label}（新しいタブで開きます）`}>
-      {label}
-      <span aria-hidden className="btn-arrow">
-        ↗
-      </span>
-    </ExternalLink>
-  );
-}
+const telHref = `tel:${HQ.tel.replace(/-/g, "")}`;
 
 function PanelBody({ place, onClose }: { place: Place; onClose: () => void }) {
   const o = place.opens;
 
   if (o.kind === "work") {
-    const w = workById(o.workId)!;
     return (
       <>
-        <MapCrop rect={place.rect} label={w.name} />
-        <div className="panel-body">
-          <span className={`cat-chip cat-${w.category}`}>{CATEGORY_LABEL[w.category]}</span>
-          <h2 id="panel-title">{w.name}</h2>
-          <p>{w.summary}</p>
-          <p className="url">{w.url.replace(/^https?:\/\//, "").replace(/\/$/, "")}</p>
-          <div className="actions">
-            <VisitButton work={w} />
-            <button className="btn" onClick={onClose}>
-              閉じる
-            </button>
-          </div>
-          <p className="newtab-note">作品は新しいタブで開きます。見終わったらそのタブを閉じれば、この街に戻れます。</p>
+        <WorkCard work={workById(o.workId)} />
+        <div className="panel-foot">
+          <button className="btn" onClick={onClose}>
+            地図に戻る
+          </button>
         </div>
       </>
     );
   }
 
-  if (o.kind === "arcade") {
-    const games = WORKS.filter((w) => w.category === "game");
+  if (o.kind === "group") {
     return (
       <>
-        <MapCrop rect={place.rect} label="ゲームコーナー" />
-        <div className="panel-body">
-          <span className="cat-chip cat-game">ゲームコーナー</span>
-          <h2 id="panel-title">駄菓子屋のゲームコーナー</h2>
-          <p>どの筐体で遊ぶ？ ブラウザですぐに遊べます。</p>
-          <ul className="game-list">
-            {games.map((g) => (
-              <li key={g.id}>
-                <div>
-                  <strong>{g.name}</strong>
-                  <span>{g.summary}</span>
-                </div>
-                <VisitButton work={g} label="遊ぶ" />
-              </li>
-            ))}
-          </ul>
-          <div className="actions">
-            <button className="btn" onClick={onClose}>
-              街に戻る
-            </button>
-          </div>
-          <p className="newtab-note">作品は新しいタブで開きます。見終わったらそのタブを閉じれば、この街に戻れます。</p>
+        <div className="panel-head">
+          <h2 id="panel-title">{o.title}</h2>
+          <p>{o.lead}</p>
+        </div>
+        <div className="panel-list">
+          {o.workIds.map((id) => (
+            <WorkCard key={id} work={workById(id)} compact />
+          ))}
+        </div>
+        <div className="panel-foot">
+          <button className="btn" onClick={onClose}>
+            地図に戻る
+          </button>
         </div>
       </>
     );
   }
 
   if (o.kind === "hq") {
-    const count = (c: Work["category"]) => WORKS.filter((w) => w.category === c).length;
     return (
       <>
         <MapCrop rect={place.rect} label={HQ.name} />
-        <div className="panel-body">
-          <span className="cat-chip cat-hq">本拠点</span>
+        <div className="panel-head">
           <h2 id="panel-title">{HQ.name}</h2>
-          <p className="catch">{HQ.catch}</p>
-          <p>{HQ.lead}</p>
+          <p className="panel-catch">{HQ.catch}</p>
+          <p>{HQ.origin}ご相談は無料です。</p>
           <ul className="stats">
-            <li>
-              <b>{count("homepage")}</b>ホームページ
-            </li>
-            <li>
-              <b>{count("game")}</b>ゲーム
-            </li>
-            <li>
-              <b>{count("app")}</b>便利アプリ
-            </li>
-          </ul>
-          <ul className="services">
-            {HQ.services.map((s) => (
-              <li key={s}>{s}</li>
+            {CATEGORIES.map((c) => (
+              <li key={c.id} className={`cat-${c.id}`}>
+                <b>{worksIn(c.id).length}</b>
+                {c.label}
+              </li>
             ))}
           </ul>
-          <p className="contact">
-            ご相談は無料です。
-            <br />
-            <a href={`tel:${HQ.tel.replace(/-/g, "")}`}>{HQ.tel}</a>／
-            <a href={`mailto:${HQ.mail}`}>{HQ.mail}</a>
-          </p>
-          <div className="actions">
-            <a className="btn btn-primary" href="#list" onClick={onClose}>
-              作品一覧を見る
-            </a>
-            <button className="btn" onClick={onClose}>
-              街に戻る
-            </button>
-          </div>
+        </div>
+        <div className="panel-foot">
+          <a className="btn btn-call" href={telHref}>
+            電話で相談する
+          </a>
+          <button className="btn" onClick={onClose}>
+            地図に戻る
+          </button>
         </div>
       </>
     );
   }
 
-  // 建設予定地
   return (
     <>
       <MapCrop rect={place.rect} label="建設予定地" />
-      <div className="panel-body">
-        <span className="cat-chip cat-soon">建設予定地</span>
+      <div className="panel-head">
         <h2 id="panel-title">次の作品をつくっています</h2>
         <p>この空き地には、これから生まれる作品が建つ予定です。あなたのお店や活動のデジタル化も、ここから始めませんか？</p>
-        <div className="actions">
-          <a className="btn btn-primary" href={`mailto:${HQ.mail}`}>
-            相談してみる
-          </a>
-          <button className="btn" onClick={onClose}>
-            街に戻る
-          </button>
-        </div>
+      </div>
+      <div className="panel-foot">
+        <a className="btn btn-call" href={telHref}>
+          電話で相談する
+        </a>
+        <button className="btn" onClick={onClose}>
+          地図に戻る
+        </button>
       </div>
     </>
   );
@@ -173,15 +106,9 @@ function PanelBody({ place, onClose }: { place: Place; onClose: () => void }) {
 export default function TownMap() {
   const [openId, setOpenId] = useState<string | null>(null);
   const dialogRef = useRef<HTMLDialogElement>(null);
-  const scrollRef = useRef<HTMLDivElement>(null);
-
   const place = PLACES.find((p) => p.id === openId) ?? null;
-
-  const open = useCallback((id: string) => setOpenId(id), []);
-
   const close = useCallback(() => setOpenId(null), []);
 
-  // ダイアログの開閉
   useEffect(() => {
     const d = dialogRef.current;
     if (!d) return;
@@ -189,97 +116,99 @@ export default function TownMap() {
     if (!place && d.open) d.close();
   }, [place]);
 
-  // 初期表示：横スクロールになる幅では相談室を画面中央に
-  useEffect(() => {
-    const s = scrollRef.current;
-    if (!s || s.scrollWidth <= s.clientWidth) return;
-    const hq = PLACES.find((p) => p.id === "hq")!;
-    const cx = ((hq.rect[0] + hq.rect[2]) / 2 / MAP_W) * s.scrollWidth;
-    s.scrollLeft = cx - s.clientWidth / 2;
-  }, []);
+  const [lx1, ly1, lx2, ly2] = LEGEND_RECT;
 
   return (
-    <section className="town" aria-label="作品マップ">
-      <div className="map-scroll" ref={scrollRef}>
+    <section id="map" className="town" aria-labelledby="map-title">
+      <div className="town-inner">
+        <div className="section-head">
+          <h2 id="map-title">作品の地図</h2>
+          <p>これまでつくってきたものを、ひとつの街にまとめました。番号を押すと、くわしい説明が出ます。</p>
+        </div>
+
         <div className="map">
           <picture>
             <source srcSet="/town-map.webp" type="image/webp" />
             <img
               src="/town-map.jpg"
-              alt="地域デジタル相談室を中心に、これまで制作した作品のお店や施設が並ぶ街のイラスト"
+              alt="地域デジタル相談室を中心に、これまでつくったお店や施設が並ぶ街のイラスト"
               width={MAP_W}
               height={MAP_H}
               draggable={false}
             />
           </picture>
 
-          {PLACES.map((p, i) => {
+          {/* イラストの「作品数」パネルを、4分野の最新の数に描き直す */}
+          <div
+            className="legend-patch"
+            aria-hidden
+            style={{
+              left: pct(lx1, MAP_W),
+              top: pct(ly1, MAP_H),
+              width: pct(lx2 - lx1, MAP_W),
+              height: pct(ly2 - ly1, MAP_H),
+            }}
+          >
+            {CATEGORIES.map((c) => (
+              <span key={c.id} className={`lp cat-${c.id}`}>
+                <i>{c.label}</i>
+                <b>{worksIn(c.id).length}</b>
+              </span>
+            ))}
+          </div>
+
+          {PLACES.map((p) => {
             const [x1, y1, x2, y2] = p.rect;
-            const live = p.opens.kind !== "construction";
-            const tip =
-              p.opens.kind === "work"
-                ? workById(p.opens.workId)!.balloon
-                : p.opens.kind === "hq"
-                  ? "相談室の本拠点。中をのぞいてみよう"
-                  : p.opens.kind === "arcade"
-                    ? "Dr.MURAI と 大人げナインジャー で遊べる"
-                    : "次の作品をつくっています";
             return (
               <button
                 key={p.id}
-                className={`spot ${live ? "is-live" : "is-soon"} spot-${p.id}`}
-                style={{
-                  left: pct(x1, MAP_W),
-                  top: pct(y1, MAP_H),
-                  width: pct(x2 - x1, MAP_W),
-                  height: pct(y2 - y1, MAP_H),
-                  animationDelay: `${i * 0.35}s`,
-                }}
-                aria-label={`${p.label}：${tip}`}
+                className={`spot ${p.opens.kind === "construction" ? "is-soon" : "is-live"}`}
+                style={{ left: pct(x1, MAP_W), top: pct(y1, MAP_H), width: pct(x2 - x1, MAP_W), height: pct(y2 - y1, MAP_H) }}
+                aria-label={`${p.no}番 ${p.label}：${p.tip}`}
                 aria-haspopup="dialog"
-                onClick={() => open(p.id)}
+                tabIndex={-1}
+                onClick={() => setOpenId(p.id)}
               >
                 <span className="tip" aria-hidden>
-                  {tip}
-                  {live && <em>タップで詳しく</em>}
+                  {p.tip}
                 </span>
               </button>
             );
           })}
 
-          {/* 稼働中の印：リンク先があるものだけが光って跳ねる */}
-          {PLACES.filter((p) => p.pin).map((p, i) => (
-            <span
+          {PLACES.map((p) => (
+            <button
               key={`pin-${p.id}`}
-              className="pin"
-              aria-hidden
-              style={{
-                left: pct(p.pin![0], MAP_W),
-                top: pct(p.pin![1], MAP_H),
-                animationDelay: `${(i % 5) * 0.4}s`,
-              }}
-            />
+              className={`pin ${p.opens.kind === "construction" ? "is-soon" : ""}`}
+              style={{ left: pct(p.pin[0], MAP_W), top: pct(p.pin[1], MAP_H) }}
+              aria-label={`${p.no}番 ${p.label}`}
+              aria-haspopup="dialog"
+              onClick={() => setOpenId(p.id)}
+            >
+              {p.no}
+            </button>
           ))}
         </div>
-      </div>
 
-      <div className="hud">
-        <p className="hint">
-          <span className="hint-dot" aria-hidden />
-          光っている建物を選ぶと、作品をのぞけます
-        </p>
-        <a className="btn btn-small" href="#list">
-          リストで見る
-        </a>
+        {/* 案内図の凡例：スマホでは地図の文字が小さいので、番号と名前をここで選べるようにする */}
+        <ol className="map-key" aria-label="地図の番号と場所">
+          {PLACES.map((p) => (
+            <li key={p.id}>
+              <button onClick={() => setOpenId(p.id)} aria-haspopup="dialog">
+                <span className="key-no">{p.no}</span>
+                <span className="key-label">{p.short}</span>
+              </button>
+            </li>
+          ))}
+        </ol>
       </div>
 
       <dialog
         ref={dialogRef}
         className="panel"
-        aria-labelledby="panel-title"
+        aria-label={place ? place.label : undefined}
         onClose={close}
         onClick={(e) => {
-          // 背景（ダイアログの外側）クリックで閉じる
           if (e.target === e.currentTarget) close();
         }}
       >
