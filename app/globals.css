@@ -476,7 +476,7 @@ img { max-width: 100%; }
 }
 
 @media (min-width: 1040px) {
-  .map-key { grid-template-columns: repeat(5, 1fr); }
+  .map-key { grid-template-columns: repeat(6, 1fr); }
 }
 
 .map-key button {
@@ -629,6 +629,13 @@ img { max-width: 100%; }
 .work-thumb {
   max-height: 160px;
   border-bottom: 2px solid var(--ink);
+}
+
+.work-img {
+  display: block;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
 }
 
 .work-body {

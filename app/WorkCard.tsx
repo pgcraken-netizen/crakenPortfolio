@@ -14,7 +14,11 @@ export default function WorkCard({ work, compact = false }: { work: Work; compac
   const cat = categoryOf(work.category);
   return (
     <article className={`work cat-${work.category} ${compact ? "is-compact" : ""}`}>
-      <MapCrop rect={work.thumb} label={work.name} className="work-thumb" />
+      {work.image ? (
+        <img className="work-thumb work-img" src={work.image} alt={`${work.name}のイラスト`} loading="lazy" />
+      ) : (
+        work.thumb && <MapCrop rect={work.thumb} label={work.name} className="work-thumb" />
+      )}
       <div className="work-body">
         <p className="work-cat">{cat.label}</p>
         <h4 className="work-name">{work.name}</h4>

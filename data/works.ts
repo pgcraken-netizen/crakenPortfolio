@@ -24,8 +24,10 @@ export type Work = {
   summary: string;
   /** 公開中のページ。講座などページがないものは省略 */
   url?: string;
-  /** カードのサムネイルに使うイラストの範囲 */
-  thumb: Rect;
+  /** カードのサムネイルに使うイラストの範囲（街の地図から切り出す） */
+  thumb?: Rect;
+  /** 地図以外の絵を使うとき（public/ 以下のパス）。thumb より優先 */
+  image?: string;
 };
 
 /** 4つの分野。強み・弱みを補い合うよう、どれも同じ重さで見せる */
@@ -45,19 +47,19 @@ export const CATEGORIES: {
     id: "homepage",
     label: "ホームページ",
     lead: "お店や施設のことを、インターネットで知ってもらう入口をつくります。",
-    forWhom: ["ホームページを作りたい・古いものを直したい", "Googleマップにお店を正しく載せたい", "電話や問い合わせを増やしたい"],
+    forWhom: ["ホームページを作りたい・古いものを直したい", "Googleマップにお店を正しく載せたい", "手づくりの品をネットで紹介したい", "電話や問い合わせを増やしたい"],
   },
   {
     id: "app",
     label: "便利アプリ",
     lead: "毎日の手作業を、パソコンやスマホで楽にする道具をつくります。",
-    forWhom: ["アンケートの集計に時間がかかっている", "紙やエクセルの整理が追いつかない", "同じ作業を毎回くり返している"],
+    forWhom: ["アンケートの集計に時間がかかっている", "紙やエクセルの整理が追いつかない", "イベントの準備を、みんなで分担して進めたい"],
   },
   {
     id: "game",
     label: "楽しいゲーム",
     lead: "ブラウザですぐ遊べるゲームで、お店や活動を楽しく知ってもらいます。",
-    forWhom: ["イベントやSNSで話題をつくりたい", "子どもから大人まで楽しめる企画がほしい"],
+    forWhom: ["イベントやSNSで話題をつくりたい", "子どもたちが楽しめる、やさしいゲームがほしい"],
   },
   {
     id: "lecture",
@@ -117,6 +119,15 @@ export const WORKS: Work[] = [
     thumb: [300, 755, 730, 945],
   },
   {
+    id: "marche",
+    category: "homepage",
+    name: "となりの手づくり屋さん",
+    balloon: "小さな手づくりマルシェのサイト",
+    summary: "ママ友が集まって始める、小さなマルシェのサイトです。手づくりの小物や焼き菓子を、作り手ごとのお店で紹介しています。",
+    url: "https://handmademarche.vercel.app",
+    thumb: [590, 228, 870, 318],
+  },
+  {
     id: "survey",
     category: "app",
     name: "アンケート結果集計アプリ",
@@ -137,6 +148,15 @@ export const WORKS: Work[] = [
     thumb: [1240, 650, 1495, 805],
   },
   {
+    id: "event-portal",
+    category: "app",
+    name: "地域イベント共創ポータル",
+    balloon: "学生と地域で進める町おこしイベント",
+    summary: "学生と地域の人たちが一緒に町おこしイベントを進めるための作戦室です。予定・連絡・チラシづくりを、イベントごとにひとつの画面にまとめます。",
+    url: "https://eventprojectdashboard.vercel.app/",
+    image: "/works/event-portal.webp",
+  },
+  {
     id: "drmurai",
     category: "game",
     name: "Dr.MURAI",
@@ -153,6 +173,15 @@ export const WORKS: Work[] = [
     summary: "「自由戦隊オトナゲナインジャー」の世界で遊べるミニゲームです。",
     url: "https://wa-otonagenainger.vercel.app",
     thumb: [1150, 345, 1500, 545],
+  },
+  {
+    id: "takahashi",
+    category: "game",
+    name: "高橋先生とあそぼう！",
+    balloon: "帽子の着せ替えゲーム",
+    summary: "高橋先生にいろいろな帽子をかぶせて遊ぶ、やさしい着せ替えゲームです。季節の帽子を集めながら楽しめます。",
+    url: "https://hibaritakagashi.vercel.app/",
+    thumb: [1355, 395, 1500, 535],
   },
   {
     id: "ai-lecture",
@@ -222,13 +251,15 @@ export const PLACES: Place[] = [
       kind: "group",
       title: "駄菓子屋のゲームコーナー",
       lead: "どの筐体で遊びますか？ ブラウザですぐに遊べます。",
-      workIds: ["drmurai", "otonagenainger"],
+      workIds: ["takahashi", "drmurai", "otonagenainger"],
     },
-    tip: "ゲーム2本で遊べます",
+    tip: "ゲーム3本で遊べます",
   },
   { id: "survey", no: 8, label: "アンケート集計アプリ", short: "集計アプリ", rect: [930, 585, 1232, 805], pin: [1204, 596], opens: { kind: "work", workId: "survey" }, tip: "アンケートの回答を自動で集計" },
   { id: "storage", no: 9, label: "ストレージ容量対応アプリ", short: "整理アプリ", rect: [1236, 585, 1498, 805], pin: [1476, 596], opens: { kind: "work", workId: "storage" }, tip: "保存容量の整理をお手伝い" },
-  { id: "construction", no: 10, label: "建設予定地", short: "建設予定地", rect: [820, 815, 1365, 1015], pin: [930, 838], opens: { kind: "construction" }, tip: "次の作品をつくっています" },
+  { id: "marche", no: 10, label: "となりの手づくり屋さん", short: "マルシェ", rect: [590, 225, 870, 320], pin: [702, 236], opens: { kind: "work", workId: "marche" }, tip: "小さな手づくりマルシェのサイト" },
+  { id: "event-portal", no: 11, label: "イベント広場（地域イベント共創ポータル）", short: "イベント広場", rect: [600, 615, 880, 684], pin: [866, 628], opens: { kind: "work", workId: "event-portal" }, tip: "学生と地域で進める町おこしイベント" },
+  { id: "construction", no: 12, label: "建設予定地", short: "建設予定地", rect: [820, 815, 1365, 1015], pin: [930, 838], opens: { kind: "construction" }, tip: "次の作品をつくっています" },
 ];
 
 /** イラストの中の「作品数」パネルの位置（数字をデータに合わせて上書きする） */
@@ -268,6 +299,6 @@ export const FAQ = [
   },
   {
     q: "どんなところからの依頼がありますか？",
-    a: "福祉・介護の事業所、地域のお店、子育て支援の会社、地域の団体などから、ホームページづくりや講座のご依頼をいただいています。",
+    a: "福祉・介護の事業所、地域のお店、子育て支援の会社、ママ友のグループ、学生と地域の団体などと一緒に、ホームページやアプリ、講座をつくってきました。",
   },
 ];
