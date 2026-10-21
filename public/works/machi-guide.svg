@@ -1,0 +1,49 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 180">
+  <!-- 作品カード用：「西原小学校 学区まちガイド」の掲示板 -->
+  <defs>
+    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#cfeefc"/>
+      <stop offset="1" stop-color="#eef8fd"/>
+    </linearGradient>
+  </defs>
+  <rect width="320" height="180" fill="url(#sky)"/>
+  <path d="M0 132 C60 122 120 128 170 124 S270 118 320 126 V180 H0 Z" fill="#a9d47a"/>
+  <path d="M0 150 C80 142 160 150 320 140 V180 H0 Z" fill="#8cc061"/>
+  <!-- 木 -->
+  <g stroke="#3b3029" stroke-width="2" stroke-linejoin="round">
+    <rect x="34" y="96" width="8" height="34" fill="#9a6a3c"/>
+    <circle cx="38" cy="84" r="24" fill="#5fae4e"/>
+    <circle cx="26" cy="92" r="14" fill="#6dbb58"/>
+    <rect x="278" y="100" width="8" height="30" fill="#9a6a3c"/>
+    <circle cx="282" cy="90" r="20" fill="#5fae4e"/>
+  </g>
+  <g stroke="#3b3029" stroke-width="2.4" stroke-linejoin="round" stroke-linecap="round">
+    <ellipse cx="160" cy="160" rx="92" ry="7" fill="#5d8a3e" fill-opacity=".4" stroke="none"/>
+    <rect x="86" y="86" width="12" height="74" rx="3" fill="#b27a45"/>
+    <rect x="222" y="86" width="12" height="74" rx="3" fill="#b27a45"/>
+    <path d="M58 46 L160 14 L262 46 L254 54 L66 54 Z" fill="#3e9a4f"/>
+    <path d="M78 48 L160 22 L242 48" fill="none" stroke="#8fd19a" stroke-width="2"/>
+    <rect x="70" y="52" width="180" height="92" rx="5" fill="#c98f55"/>
+    <rect x="78" y="60" width="164" height="76" rx="3" fill="#e9c58f"/>
+    <!-- まちガイドの貼り紙 -->
+    <g transform="rotate(-3 128 98)">
+      <rect x="88" y="64" width="80" height="66" fill="#fffdf4"/>
+      <path d="M94 120 C108 102 118 112 126 94 S146 80 160 74" fill="none" stroke="#3b8fd6" stroke-width="3"/>
+      <path d="M94 86 H162 M120 68 V126" fill="none" stroke="#d9b47a" stroke-width="2"/>
+      <path d="M136 100 l6 -8 l6 8 z" fill="#c4570a" stroke-width="1.6"/>
+      <circle cx="108" cy="108" r="4" fill="#e2496a" stroke-width="1.6"/>
+      <circle cx="146" cy="116" r="3.4" fill="#e2496a" stroke-width="1.6"/>
+    </g>
+    <g transform="rotate(4 203 82)">
+      <rect x="178" y="64" width="54" height="36" fill="#cfeaff"/>
+      <path d="M185 74 H225 M185 82 H218 M185 90 H222" fill="none" stroke="#5a7c96" stroke-width="2"/>
+    </g>
+    <g transform="rotate(-4 203 118)">
+      <rect x="180" y="106" width="48" height="26" fill="#fff1a6"/>
+      <path d="M187 115 H220 M187 123 H210" fill="none" stroke="#a08a3a" stroke-width="2"/>
+    </g>
+    <circle cx="127" cy="66" r="3.6" fill="#ef7a1a" stroke-width="1.6"/>
+    <circle cx="205" cy="66" r="3.2" fill="#7a4cc0" stroke-width="1.6"/>
+    <circle cx="204" cy="108" r="3" fill="#2f8f46" stroke-width="1.6"/>
+  </g>
+</svg>

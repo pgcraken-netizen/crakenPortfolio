@@ -341,10 +341,16 @@ img { max-width: 100%; }
   }
 }
 
-.map img {
+.map > picture img {
   display: block;
   width: 100%;
   height: 100%;
+}
+
+/* イラストに描き足した建物 */
+.addon {
+  position: absolute;
+  pointer-events: none;
 }
 
 /* イラスト内の作品数パネルを4分野に描き直したもの */
@@ -476,7 +482,7 @@ img { max-width: 100%; }
 }
 
 @media (min-width: 1040px) {
-  .map-key { grid-template-columns: repeat(6, 1fr); }
+  .map-key { grid-template-columns: repeat(5, 1fr); }
 }
 
 .map-key button {

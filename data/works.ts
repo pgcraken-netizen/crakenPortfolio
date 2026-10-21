@@ -128,6 +128,15 @@ export const WORKS: Work[] = [
     thumb: [590, 228, 870, 318],
   },
   {
+    id: "nishihara-guide",
+    category: "homepage",
+    name: "西原小学校 学区まちガイド",
+    balloon: "子どものためのまちガイド",
+    summary: "宇都宮市・西原小学校の学区にある史跡や名所を、イラストの地図で紹介する小中学生向けのまちガイドです。クイズやスタンプラリーで、自分のまちを楽しく知ることができます。",
+    url: "https://utsunomiya-nishihara-area.web.app/",
+    image: "/works/machi-guide.svg",
+  },
+  {
     id: "survey",
     category: "app",
     name: "アンケート結果集計アプリ",
@@ -223,9 +232,10 @@ export const MAP_H = 1024;
 
 export const PLACES: Place[] = [
   { id: "hq", no: 1, label: "地域デジタル相談室", short: "相談室", rect: [565, 330, 895, 615], pin: [884, 338], opens: { kind: "hq" }, tip: "相談室の本拠点" },
+  { id: "board", no: 2, label: "まちの掲示板（西原小学校 学区まちガイド）", short: "掲示板", rect: [490, 540, 584, 626], pin: [578, 548], opens: { kind: "work", workId: "nishihara-guide" }, tip: "子どものためのまちガイド" },
   {
     id: "kominkan",
-    no: 2,
+    no: 3,
     label: "公民館（地域支え合い研究会・講座）", short: "公民館",
     rect: [270, 195, 565, 380],
     pin: [558, 206],
@@ -237,13 +247,13 @@ export const PLACES: Place[] = [
     },
     tip: "研究会のホームページと講座",
   },
-  { id: "associe", no: 3, label: "アソシエ", short: "アソシエ", rect: [25, 320, 345, 510], pin: [254, 332], opens: { kind: "work", workId: "associe" }, tip: "ケアマネ・訪問介護のホームページ" },
-  { id: "rian", no: 4, label: "りあん", short: "りあん", rect: [25, 515, 335, 760], pin: [242, 527], opens: { kind: "work", workId: "rian" }, tip: "生活介護事業所のホームページ" },
-  { id: "tat", no: 5, label: "美容室 TAT", short: "美容室 TAT", rect: [880, 200, 1095, 460], pin: [1088, 212], opens: { kind: "work", workId: "tat" }, tip: "街の美容室のホームページ" },
-  { id: "ogawa", no: 6, label: "小川自動車整備工場", short: "小川自動車", rect: [300, 685, 730, 885], pin: [682, 696], opens: { kind: "work", workId: "ogawa" }, tip: "自動車整備工場のホームページ" },
+  { id: "associe", no: 4, label: "アソシエ", short: "アソシエ", rect: [25, 320, 345, 510], pin: [254, 332], opens: { kind: "work", workId: "associe" }, tip: "ケアマネ・訪問介護のホームページ" },
+  { id: "rian", no: 5, label: "りあん", short: "りあん", rect: [25, 515, 335, 760], pin: [242, 527], opens: { kind: "work", workId: "rian" }, tip: "生活介護事業所のホームページ" },
+  { id: "tat", no: 6, label: "美容室 TAT", short: "美容室 TAT", rect: [880, 200, 1095, 460], pin: [1088, 212], opens: { kind: "work", workId: "tat" }, tip: "街の美容室のホームページ" },
+  { id: "ogawa", no: 7, label: "小川自動車整備工場", short: "小川自動車", rect: [300, 685, 730, 885], pin: [682, 696], opens: { kind: "work", workId: "ogawa" }, tip: "自動車整備工場のホームページ" },
   {
     id: "arcade",
-    no: 7,
+    no: 8,
     label: "駄菓子屋のゲームコーナー", short: "ゲーム",
     rect: [1110, 262, 1505, 548],
     pin: [1414, 274],
@@ -255,12 +265,15 @@ export const PLACES: Place[] = [
     },
     tip: "ゲーム3本で遊べます",
   },
-  { id: "survey", no: 8, label: "アンケート集計アプリ", short: "集計アプリ", rect: [930, 585, 1232, 805], pin: [1204, 596], opens: { kind: "work", workId: "survey" }, tip: "アンケートの回答を自動で集計" },
-  { id: "storage", no: 9, label: "ストレージ容量対応アプリ", short: "整理アプリ", rect: [1236, 585, 1498, 805], pin: [1476, 596], opens: { kind: "work", workId: "storage" }, tip: "保存容量の整理をお手伝い" },
-  { id: "marche", no: 10, label: "となりの手づくり屋さん", short: "マルシェ", rect: [590, 225, 870, 320], pin: [702, 236], opens: { kind: "work", workId: "marche" }, tip: "小さな手づくりマルシェのサイト" },
-  { id: "event-portal", no: 11, label: "イベント広場（地域イベント共創ポータル）", short: "イベント広場", rect: [600, 615, 880, 684], pin: [866, 628], opens: { kind: "work", workId: "event-portal" }, tip: "学生と地域で進める町おこしイベント" },
-  { id: "construction", no: 12, label: "建設予定地", short: "建設予定地", rect: [820, 815, 1365, 1015], pin: [930, 838], opens: { kind: "construction" }, tip: "次の作品をつくっています" },
+  { id: "survey", no: 9, label: "アンケート集計アプリ", short: "集計アプリ", rect: [930, 585, 1232, 805], pin: [1204, 596], opens: { kind: "work", workId: "survey" }, tip: "アンケートの回答を自動で集計" },
+  { id: "storage", no: 10, label: "ストレージ容量対応アプリ", short: "整理アプリ", rect: [1236, 585, 1498, 805], pin: [1476, 596], opens: { kind: "work", workId: "storage" }, tip: "保存容量の整理をお手伝い" },
+  { id: "marche", no: 11, label: "となりの手づくり屋さん", short: "マルシェ", rect: [590, 225, 870, 320], pin: [702, 236], opens: { kind: "work", workId: "marche" }, tip: "小さな手づくりマルシェのサイト" },
+  { id: "event-portal", no: 12, label: "イベント広場（地域イベント共創ポータル）", short: "イベント広場", rect: [600, 615, 880, 684], pin: [866, 628], opens: { kind: "work", workId: "event-portal" }, tip: "学生と地域で進める町おこしイベント" },
+  { id: "construction", no: 13, label: "建設予定地", short: "建設予定地", rect: [820, 815, 1365, 1015], pin: [930, 838], opens: { kind: "construction" }, tip: "次の作品をつくっています" },
 ];
+
+/** 地図に描き足す掲示板の位置（イラストにない建物はSVGを重ねる） */
+export const ADDONS: { id: string; src: string; rect: Rect }[] = [{ id: "board", src: "/works/town-board.svg", rect: [492, 542, 584, 626] }];
 
 /** イラストの中の「作品数」パネルの位置（数字をデータに合わせて上書きする） */
 export const LEGEND_RECT: Rect = [22, 888, 482, 980];

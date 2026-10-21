@@ -4,6 +4,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import MapCrop from "./MapCrop";
 import WorkCard from "./WorkCard";
 import {
+  ADDONS,
   CATEGORIES,
   HQ,
   LEGEND_RECT,
@@ -137,6 +138,23 @@ export default function TownMap() {
               draggable={false}
             />
           </picture>
+
+          {/* イラストにない建物（掲示板など）を描き足す */}
+          {ADDONS.map((a) => (
+            <img
+              key={a.id}
+              className="addon"
+              src={a.src}
+              alt=""
+              aria-hidden
+              style={{
+                left: pct(a.rect[0], MAP_W),
+                top: pct(a.rect[1], MAP_H),
+                width: pct(a.rect[2] - a.rect[0], MAP_W),
+                height: pct(a.rect[3] - a.rect[1], MAP_H),
+              }}
+            />
+          ))}
 
           {/* イラストの「作品数」パネルを、4分野の最新の数に描き直す */}
           <div
